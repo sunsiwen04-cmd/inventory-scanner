@@ -186,9 +186,15 @@ function submitData(){
 
     const result = await response.json();
 
-    console.log(result);
+    if (result.status == 200) {
 
-    alert(JSON.stringify(result));
+        alert("✅ Saved Successfully");
+
+    } else {
+
+        alert("❌ Save Failed");
+
+    }
 
 })
 
