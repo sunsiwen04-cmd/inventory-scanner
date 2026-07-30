@@ -182,13 +182,15 @@ function submitData(){
 
   })
 
-  .then(response=>response.text())
+.then(async response => {
 
-  .then(result=>{
+    const result = await response.json();
 
-    alert(result);
+    console.log(result);
 
-  })
+    alert(JSON.stringify(result));
+
+})
 
   .catch(error=>{
 
