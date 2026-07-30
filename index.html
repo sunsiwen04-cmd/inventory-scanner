@@ -159,49 +159,44 @@ document.getElementById("barcode").value=code;
 
 function submitData(){
 
+  let data = {
 
-let data={
+    barcode: document.getElementById("barcode").value,
+    batch: document.getElementById("batch").value,
+    pieces: document.getElementById("pieces").value,
+    cartons: document.getElementById("cartons").value,
+    qty: document.getElementById("qty").value,
+    writer: document.getElementById("writer").value
 
+  };
 
-barcode:document.getElementById("barcode").value,
+  fetch("https://script.google.com/macros/s/AKfycbzmSzHeBWk12GP0SvdutYbWWxNScXJqlZQvRQu02eVvHVIP7b8b8v8_bSkjnRfVzBfUFQ/exec",{
 
-batch:document.getElementById("batch").value,
+    method:"POST",
 
-pieces:document.getElementById("pieces").value,
+    headers:{
+      "Content-Type":"application/json"
+    },
 
-cartons:document.getElementById("cartons").value,
+    body:JSON.stringify(data)
 
-qty:document.getElementById("qty").value,
+  })
 
-writer:document.getElementById("writer").value
+  .then(response=>response.text())
 
+  .then(result=>{
 
-};
+    alert(result);
 
+  })
 
+  .catch(error=>{
 
-fetch("https://script.google.com/macros/s/AKfycbzmSzHeBWk12GP0SvdutYbWWxNScXJqlZQvRQu02eVvHVIP7b8b8v8_bSkjnRfVzBfUFQ/exec",{
+    alert("错误：" + error);
 
+    console.log(error);
 
-method:"POST",
-
-body:JSON.stringify(data)
-
-
-})
-
-
-.then(response=>response.text())
-
-.then(result=>{
-
-
-alert("保存成功");
-
-
-});
-
-
+  });
 
 }
 
