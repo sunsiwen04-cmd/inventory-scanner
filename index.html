@@ -5,16 +5,16 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
-<title>Barcode Scanner</title>
+<title>EAN Scanner</title>
 
 </head>
 
 
 <body>
 
-<h2>📦 Barcode Scanner</h2>
+<h2>📦 EAN-13 Barcode Scanner</h2>
 
 <div id="reader" style="width:320px"></div>
 
@@ -26,15 +26,16 @@
 <script>
 
 
-function success(decodedText){
+function onScanSuccess(decodedText, decodedResult) {
 
     document.getElementById("result").innerHTML =
-    "条码编号：" + decodedText;
+    "条码：" + decodedText;
 
 }
 
 
-function error(err){
+
+function onScanFailure(error) {
 
 }
 
@@ -45,12 +46,16 @@ let scanner = new Html5QrcodeScanner(
     "reader",
 
     {
+
         fps:10,
+
         qrbox:{
             width:300,
-            height:150
+            height:120
         },
+
         rememberLastUsedCamera:true
+
     },
 
     false
@@ -59,8 +64,8 @@ let scanner = new Html5QrcodeScanner(
 
 
 scanner.render(
-    success,
-    error
+    onScanSuccess,
+    onScanFailure
 );
 
 
