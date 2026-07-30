@@ -1,43 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
-<title>Inventory Scanner</title>
+<title>QR Scanner</title>
 
 </head>
 
+
 <body>
 
-<h2>库存扫码测试</h2>
+<h2>QR 扫描测试</h2>
 
 <div id="reader" style="width:300px"></div>
+
+<div id="result">
+等待扫描...
+</div>
 
 
 <script>
 
-function scanSuccess(text){
 
-    alert("扫描到：" + text);
+function onScanSuccess(decodedText){
+
+    document.getElementById("result").innerHTML =
+    "扫描结果：" + decodedText;
 
 }
 
 
+function onScanError(errorMessage){
+
+    // 不显示连续错误
+
+}
+
+
+
 let scanner = new Html5QrcodeScanner(
+
     "reader",
+
     {
         fps:10,
         qrbox:250
-    }
+    },
+
+    false
+
 );
 
 
-scanner.render(scanSuccess);
+scanner.render(
+    onScanSuccess,
+    onScanError
+);
 
 
 </script>
 
+
 </body>
+
 </html>
