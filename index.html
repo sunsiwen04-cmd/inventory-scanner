@@ -7,57 +7,110 @@
 
 <title>Barcode Scanner</title>
 
-<script type="module">
-import { BrowserMultiFormatReader } 
-from "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/+esm";
+<script src="https://unpkg.com/@ericblade/quagga2/dist/quagga.min.js"></script>
 
-window.onload = async function(){
+<style>
 
-const codeReader = new BrowserMultiFormatReader();
-
-const video = document.getElementById("video");
-
-const result = document.getElementById("result");
-
-
-codeReader.decodeFromVideoDevice(
-    null,
-    video,
-    (resultText, error)=>{
-
-        if(resultText){
-
-            result.innerHTML =
-            "条码：" + resultText.getText();
-
-        }
-
-    }
-);
-
+body {
+    text-align:center;
+    font-family:Arial;
 }
 
-</script>
+#camera {
+    width:100%;
+    max-width:400px;
+    margin:auto;
+}
+
+#result {
+    font-size:24px;
+    margin-top:20px;
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-<h2>📦 Barcode Scanner</h2>
+<h2>📦 EAN-13 Barcode Scanner</h2>
 
+<div id="camera"></div>
 
-<video 
-id="video"
-width="350"
-height="250"
-style="border:1px solid black">
-</video>
-
-
-<h3 id="result">
+<div id="result">
 等待扫描...
-</h3>
+</div>
+
+
+<script>
+
+
+Quagga.init({
+
+    inputStream: {
+
+        name: "Live",
+
+        type: "LiveStream",
+
+        target: document.querySelector("#camera"),
+
+        constraints: {
+
+            facingMode: "environment"
+
+        }
+
+    },
+
+
+    decoder: {
+
+        readers: [
+
+            "ean_reader",
+
+            "ean_8_reader",
+
+            "code_128_reader"
+
+        ]
+
+    }
+
+}, function(err){
+
+    if(err){
+
+        console.log(err);
+
+        return;
+
+    }
+
+
+    Quagga.start();
+
+});
+
+
+
+
+Quagga.onDetected(function(data){
+
+    let code = data.codeResult.code;
+
+
+    document.getElementById("result").innerHTML =
+    "条码：" + code;
+
+
+});
+
+
+
+</script>
 
 
 </body>
