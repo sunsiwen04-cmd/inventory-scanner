@@ -11,38 +11,29 @@
 
 <style>
 
-body {
-    font-family: Arial;
-    text-align: center;
-    padding: 10px;
+body{
+    font-family:Arial;
+    text-align:center;
+    padding:10px;
 }
 
-#camera {
+#camera{
     width:100%;
     max-width:400px;
     margin:auto;
 }
 
-input, select, button {
-
+input,select,button{
     width:90%;
     max-width:350px;
-
     padding:12px;
-
-    margin:8px;
-
+    margin:6px;
     font-size:18px;
-
 }
 
-
-#barcode {
-
+#barcode{
     background:#eee;
-
 }
-
 
 </style>
 
@@ -52,35 +43,25 @@ input, select, button {
 <body>
 
 
-<h2>📦 Barcode Entry</h2>
+<h2>📦 Barcode Scanner</h2>
 
 
 <div id="camera"></div>
 
 
-<input id="barcode" 
-placeholder="BARCODE"
-readonly>
+<input id="barcode" placeholder="BARCODE" readonly>
 
 
-<input id="batch" 
-placeholder="Batch No.">
+<input id="batch" placeholder="Batch No.">
 
 
-<input id="pieces" 
-placeholder="Pieces"
-type="number">
+<input id="pieces" placeholder="Pieces" type="number">
 
 
-<input id="cartons" 
-placeholder="Cartons"
-type="number">
+<input id="cartons" placeholder="Cartons" type="number">
 
 
-<input id="qty" 
-placeholder="Qty(KG)"
-type="number"
-step="0.01">
+<input id="qty" placeholder="Qty(KG)" type="number" step="0.01">
 
 
 
@@ -89,19 +70,13 @@ step="0.01">
 <option value="">Written by</option>
 
 <option>Sitong</option>
-
 <option>Yazhen</option>
-
 <option>JIANGHUA</option>
-
 <option>KM</option>
-
 <option>KY</option>
-
 <option>Kyaw</option>
 
 </select>
-
 
 
 <button onclick="submitData()">
@@ -113,9 +88,11 @@ ENTER / SUBMIT
 <script>
 
 
+// 开启条码扫描
+
 Quagga.init({
 
-inputStream: {
+inputStream:{
 
 name:"Live",
 
@@ -146,6 +123,7 @@ readers:[
 
 }
 
+
 },function(err){
 
 if(err){
@@ -156,11 +134,11 @@ return;
 
 }
 
+
 Quagga.start();
 
 
 });
-
 
 
 
@@ -177,69 +155,56 @@ document.getElementById("barcode").value=code;
 
 
 
+// 发送到 Google Sheet
+
 function submitData(){
 
-let data = {
 
-barcode: document.getElementById("barcode").value,
+let data={
 
-batch: document.getElementById("batch").value,
 
-pieces: document.getElementById("pieces").value,
+barcode:document.getElementById("barcode").value,
 
-cartons: document.getElementById("cartons").value,
+batch:document.getElementById("batch").value,
 
-qty: document.getElementById("qty").value,
+pieces:document.getElementById("pieces").value,
 
-writer: document.getElementById("writer").value
+cartons:document.getElementById("cartons").value,
+
+qty:document.getElementById("qty").value,
+
+writer:document.getElementById("writer").value
+
 
 };
 
 
-fetch("https://script.google.com/macros/s/AKfycbzmSzHeBWk12GP0SvdutYbWWxNScXJqlZQvRQu02eVvHVIP7b8b8v8_bSkjnRfVzBfUFQ/exec", {
+
+fetch("你的Apps Script /exec网址",{
+
 
 method:"POST",
 
 body:JSON.stringify(data)
 
+
 })
 
-.then(response => response.text())
 
-.then(result => {
+.then(response=>response.text())
+
+.then(result=>{
+
 
 alert("保存成功");
+
 
 });
 
 
-}
-
-
-alert(
-
-"Barcode: "+
-document.getElementById("barcode").value+
-
-"\nBatch: "+
-document.getElementById("batch").value+
-
-"\nPieces: "+
-document.getElementById("pieces").value+
-
-"\nCartons: "+
-document.getElementById("cartons").value+
-
-"\nQty(KG): "+
-document.getElementById("qty").value+
-
-"\nWritten by: "+
-document.getElementById("writer").value
-
-);
-
 
 }
+
 
 
 </script>
