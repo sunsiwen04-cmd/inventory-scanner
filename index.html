@@ -5,71 +5,59 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<title>Barcode Scanner</title>
 
-<title>EAN Scanner</title>
+<script type="module">
+import { BrowserMultiFormatReader } 
+from "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/+esm";
+
+window.onload = async function(){
+
+const codeReader = new BrowserMultiFormatReader();
+
+const video = document.getElementById("video");
+
+const result = document.getElementById("result");
+
+
+codeReader.decodeFromVideoDevice(
+    null,
+    video,
+    (resultText, error)=>{
+
+        if(resultText){
+
+            result.innerHTML =
+            "条码：" + resultText.getText();
+
+        }
+
+    }
+);
+
+}
+
+</script>
 
 </head>
 
 
 <body>
 
-<h2>📦 EAN-13 Barcode Scanner</h2>
+<h2>📦 Barcode Scanner</h2>
 
-<div id="reader" style="width:320px"></div>
+
+<video 
+id="video"
+width="350"
+height="250"
+style="border:1px solid black">
+</video>
+
 
 <h3 id="result">
 等待扫描...
 </h3>
-
-
-<script>
-
-
-function onScanSuccess(decodedText, decodedResult) {
-
-    document.getElementById("result").innerHTML =
-    "条码：" + decodedText;
-
-}
-
-
-
-function onScanFailure(error) {
-
-}
-
-
-
-let scanner = new Html5QrcodeScanner(
-
-    "reader",
-
-    {
-
-        fps:10,
-
-        qrbox:{
-            width:300,
-            height:120
-        },
-
-        rememberLastUsedCamera:true
-
-    },
-
-    false
-
-);
-
-
-scanner.render(
-    onScanSuccess,
-    onScanFailure
-);
-
-
-</script>
 
 
 </body>
