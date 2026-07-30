@@ -7,36 +7,34 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
-<title>QR Scanner</title>
+<title>Barcode Scanner</title>
 
 </head>
 
 
 <body>
 
-<h2>QR 扫描测试</h2>
+<h2>📦 Barcode Scanner</h2>
 
-<div id="reader" style="width:300px"></div>
+<div id="reader" style="width:320px"></div>
 
-<div id="result">
+<h3 id="result">
 等待扫描...
-</div>
+</h3>
 
 
 <script>
 
 
-function onScanSuccess(decodedText){
+function success(decodedText){
 
     document.getElementById("result").innerHTML =
-    "扫描结果：" + decodedText;
+    "条码编号：" + decodedText;
 
 }
 
 
-function onScanError(errorMessage){
-
-    // 不显示连续错误
+function error(err){
 
 }
 
@@ -48,7 +46,11 @@ let scanner = new Html5QrcodeScanner(
 
     {
         fps:10,
-        qrbox:250
+        qrbox:{
+            width:300,
+            height:150
+        },
+        rememberLastUsedCamera:true
     },
 
     false
@@ -57,8 +59,8 @@ let scanner = new Html5QrcodeScanner(
 
 
 scanner.render(
-    onScanSuccess,
-    onScanError
+    success,
+    error
 );
 
 
